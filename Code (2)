@@ -1,0 +1,319 @@
+from numpy import array
+from IPython.display import clear_output
+
+cities = array(["Karachi", "Islamabad", "Lahore"])
+theatres = array(["Nueplex Cinema's", "Atrium Cinema's", "The Arena", "Cinepax Cinema's"])
+movies = array(["Inception", "Intersteller", "The God Father", "L4yer Cake", "Back to start"])
+screen = array(["SCREEN 1", "SCREEN 2", "SCREEN 3"])
+time1 = {"1": "10.00-1.00","2": "1.10-4.10","3": "4.20-7.20","4": "7.30-10.30"}
+time2 = {"1": "10.15-1.15","2": "1.25-4.25","3": "4.35-7.35","4": "7.45-10.45"}
+time3 = {"1": "10.30-1.30","2": "1.40-4.40","3": "4.50-7.50","4": "8.00-10.45"}
+global userchoice3
+
+#global f
+#f = 0
+global city
+
+class Node:
+    def __init__(self, data):
+        self.data = data
+        self.next = None
+class LinkedList:
+    def __init__(self):
+        self.head = None
+
+    def Insert(self, data):
+        if(self.head == None):
+            self.head = Node(data)
+        else:
+            ptr = self.head
+            while(ptr.next != None):
+                ptr = ptr.next
+            ptr.next = Node(data)
+    
+    def Print(self):
+        i=0
+        if(self.head == None):
+            print("linked list is empty")
+        else:
+            print("\nTicket History\n")
+            current_node = self.head
+            while(current_node is not None):
+                i+=1
+                print(current_node.data, "\n")
+                current_node = current_node.next
+            print("You bought tickets",i,"times in history")
+            
+
+llist = LinkedList()
+#this Movie function is used to select movie name
+def Movie(cost):
+    global movie_name
+    #global f
+    #f = f+1
+    print("\nWhich movie do you want to watch?")
+    print() 
+    for i in range(len(movies)):
+        print(i+1,": ",movies[i])
+    print()
+    movie = int(input("Choose your movie: "))
+    movie_name = movies[movie-1]
+    clear_output()
+    Screen(cost)
+
+# this theater function used to select screen
+def Screen(cost):
+    global screennum
+    global ticket
+    print("\nWhich screen do you want to watch movie: ")
+    print()
+    for i in range(len(screen)):
+        print(i+1,": ",screen[i])
+    print()
+    a = int(input("Choose your screen: "))
+    screennum = screen[a-1]
+    clear_output()
+    print("\nIt will cost you: Rs.", cost, "per ticket")
+    num = int(input("Press 1 to go back to home again else press 2..."))
+    if num == 1:
+        clear_output()
+        City()
+    if num == 2:
+        clear_output()
+        ticket = int(input("\nNumber of ticket do you want?: "))
+        cost = cost * ticket
+        clear_output()
+        timing(a,cost)
+
+# this timing function used to select timing for movie
+def timing(a,cost):
+    global x
+    if a == 1:
+        print("\nChoose your time:\n")
+        print(time1)
+        t = input("\nSelect your time:")
+        x = time1[t]
+        clear_output()
+        print("\nSuccessful!, enjoy movie at "+x)
+        print("You total Billed amount is: Rs.",cost)
+        ans()
+    elif a == 2:
+        print("\nChoose your time:")
+        print(time2)
+        t = input("\nSelect your time:")
+        x = time2[t]
+        clear_output()
+        print("\nSuccessful!, enjoy movie at "+x)
+        print("\nYou total Billed amount is: Rs.",cost)
+        ans()
+    elif a == 3:
+        print("\nChoose your time:")
+        print(time3)
+        t = input("\nSelect your time:")
+        x = time3[t]
+        clear_output()
+        print("\nSuccessful!, enjoy movie at "+x)
+        print("\nYou total Billed amount is: Rs.",cost)
+        ans()
+    else:
+        print("wrong choice")
+        timing(a)
+
+#defTicket(city, time, theatre):
+#  print(city, time, theatre)
+def Movie_theatre(theatre,cost):
+    global theatre_name
+    if theatre == 1:
+        cost = cost + 800
+        theatre_name = theatres[theatre-1]
+        Movie(cost)
+    elif theatre == 2:
+        cost = cost + 700
+        theatre_name = theatres[theatre-1]
+        Movie(cost)
+    elif theatre == 3:
+        cost = cost + 600
+        theatre_name = theatres[theatre-1]
+        Movie(cost)
+    elif theatre == 4:
+        cost = cost + 500
+        theatre_name = theatres[theatre-1]
+        Movie(cost)
+    elif theatre == 5:
+        City()
+    else:
+        print("wrong choice")
+        Theatre()
+        
+def Theatre(cost):
+    print("\nWhich theatre do you wish to see movie? ")
+    print()
+    for i in range(len(theatres)):
+        print(i+1,": ",theatres[i])
+    print()
+    a = int(input("Choose your option: "))
+    clear_output()
+    Movie_theatre(a,cost)
+    return 0
+
+# this function is used to select city
+def City():
+    global city
+    global cost
+    cost = 0
+    print("\nWhere you want to watch movie?:")
+    print()
+    for i in range(len(cities)):
+        print(i+1,": ",cities[i])
+    place = int(input("\nChoose your option: "))
+    if place == 1:
+        cost = cost + 600
+        city = cities[place-1]
+        clear_output()
+        Theatre(cost)
+    elif place == 2:
+        cost = cost + 800
+        city = cities[place-1]
+        clear_output()
+        Theatre(cost)
+    elif place == 3:
+        cost = cost + 400
+        city = cities[place-1]
+        clear_output()
+        Theatre(cost)
+    else:
+        print("wrong choice")
+        City()
+        
+def UpdateMovie():
+    global movie_name
+    print("\nWhich movie do you want to watch?")
+    print() 
+    for i in range(len(movies)):
+        print(i+1,": ",movies[i])
+    print()
+    movie = int(input("Choose your movie: "))
+    movie_name = movies[movie-1]
+
+def UpdateCity():
+    global city
+    print("\nWhere you want to watch movie?:")
+    print() 
+    for i in range(len(cities)):
+        print(i+1,": ",cities[i])
+    place = int(input("\nChoose your option: "))
+    city = cities[place-1]
+
+def UpdateTheater():
+    global theatre_name
+    print("\nWhich theatre do you wish to see movie? ")
+    print()
+    for i in range(len(theatres)):
+        print(i+1,": ",theatres[i])
+    print()
+    theatre = int(input("Choose your option: "))
+    theatre_name = theatres[theatre-1]
+                      
+def UpdateScreen():
+    global screennum
+    print("\nWhich screen do you want to watch movie: ")
+    print()
+    for i in range(len(screen)):
+        print(i+1,": ",screen[i])
+    print()
+    a = int(input("Choose your screen: "))
+    screennum = screen[a-1]
+    UpdateTime(a)
+
+def UpdateTime(a):
+    global x
+    if a == 1:
+        print("\nChoose your time:\n")
+        print(time1)
+        t = input("\nSelect your time:")
+        x = time1[t]
+    elif a == 2:
+        print("\nChoose your time:")
+        print(time2)
+        t = input("\nSelect your time:")
+        x = time2[t]
+    elif a == 3:
+        print("\nChoose your time:")
+        print(time3)
+        t = input("\nSelect your time:")
+        x = time3[t]
+    else:
+        print("wrong choice")
+        UpdateTime(a)
+                      
+def ans():
+    userticket = array([[movie_name,city,theatre_name,screennum,x] for i in range(ticket)], dtype = object)
+    llist.Insert(userticket)
+    print()
+    for i in range(ticket):
+        print("\n        Ticket no: ", i+1)
+        print("  Movie Name: ",userticket[i,0])
+        print("  City: ",userticket[i,1])
+        print("  Theatre: ",userticket[i,2])
+        print("  Screen number: ",userticket[i,3])
+        print("  Time: ",userticket[i,4])    
+    userchoice2 = int(input("\nWhat else do you want to do\n1: Back to Main Menu\n2: Exit program"))
+    if userchoice2 == 1:
+        clear_output()
+        MainMenu()
+    elif userchoice2 == 2:
+        exit()
+        
+def MainMenu():
+    print("\n**Welcome to movie ticket booking")
+    print("Enter number for your selected choice")
+    print("1: Book ticket \n2: View recently booked tickets\n3: Change ticket details\n4: View History\n5: Exit program")
+    userchoice1 = int(input("\nYour selected choice is: "))
+    if(userchoice1 == 1):
+        clear_output()
+        City()
+    elif(userchoice1 == 2):
+        clear_output()
+        ans()
+    elif(userchoice1 == 3):
+        clear_output()
+        userchoice3 = int(input("\nWhat do you want to update\n1: Selected Movie\n2: Selected City\n3: Selected Theatre\n4: Selected Screen\n5: Selected Time"))
+        if userchoice3 == 1:
+            print("\n*Select new Movie*")
+            UpdateMovie()
+            print("\nNew movie has been selected")
+            MainMenu()
+        elif userchoice3 == 2:
+            print("Select new City")
+            UpdateCity()
+            print("\nNew city has been selected")
+            MainMenu()
+        elif userchoice3 == 3:
+            print("Select new Theatre")
+            UpdateTheater()
+            print("\nNew theater has been selected")
+            MainMenu()
+        elif userchoice3 == 4:
+            print("Select new Screen")
+            UpdateScreen()
+            print("\nNew screen has been selected")
+            MainMenu()
+        elif userchoice3 == 5:
+            print("Select new Time")
+            UpdateTime()
+            print("\nNew time has been selected")
+            MainMenu()
+    elif(userchoice1 == 4):
+        clear_output()
+        llist.Print()
+        userchoice2 = int(input("\nWhat else do you want to do\n1: Back to Main Menu\n2: Exit program"))
+        if userchoice2 == 1:
+            clear_output()
+            MainMenu()
+        elif userchoice2 == 2:
+            exit()
+        elif(userchoice1 == 5):
+            exit()
+
+#Main
+MainMenu()
